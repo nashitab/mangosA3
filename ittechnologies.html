@@ -93,60 +93,88 @@
 								
 								<p>For the second part, due to most of the members having no time at the near end of the semester, one of our members decided to take the task of programming the main content of the game. This will be written from her perspective. </p>
 		
+<h2>Prototype making (the main gameplay: ZW’s perspective) </h2>
+								<p>Going from where I left off, I decided to take out the pixel sprites and replace it with simple stick figures. This is to easily test the other functions of pygames. The functions in the goal list that is available initially were movement. In the newer one, I’ve added player animation (idle and run), jump, menu toggle, camera movement, and dialogue pop up. The process of understanding all these functions will be described further.  
+
+The plan was to have at least some of the main functions of the gameplay to be present, mainly presenting and handling of the part where players would confront the enemy.  
+
+I think it is important to mention that most of the code used to create this prototype references DaFluffyPotato’s beginner pygame tutorials on YouTube, thus, similarities are bound to happen. Credits goes to him.</p>
 								
-								
-								
-								
-								
-								
-								<br><b><u>What does it do?</u></b>
-						
+	<body>
+<img src="images/1.png" alt="backgrounds" width="500" height="300">
+</body>
+</html>		
 							
+							<body>
+<img src="images/2.png" alt="backgrounds" width="500" height="300">
+</body>
+</html>	
+							<body>
+<img src="images/3.png" alt="backgrounds" width="500" height="300">
+</body>
+</html>	
+								
+								
 								
 							
-								<br><b><u>What is the likely impact?</u></b>
-							
-									
-								<br><b><u>How will this affect me?</u></b>
-						
 						
 
-							<h3 style="color:CadetBlue;">Cybersecurity: Nashita Baig</h3>
-							
-								<br><b><u>What does it do?</u></b>
-								
-								<br><b><u>What is the likely impact?</u></b>
-							
-								
-							<br><b><u>How will this affect me?</u></b>
-								
-								
-							<h3 style="color:CadetBlue;">Clouds, services, servers: Sarah Khan</h3>
-							<br><b><u>What does it do?</u></b>
-							
-							
-									<br><b><u>What is the likely impact?</u></b>
-							
-		
-							<br><b><u>How will this affect me?</u></b>
-							
-								
+							<h3 style="color:maroon;">Initial Screen Setup, Movements: </h3>
+				<p>These were the easiest to learn being the most straightforward function pygame provides. What it involved were only if else statements with a built-in function from the pygame modules.  
 
-							<h3 style="color:CadetBlue;">Robots: Trang</h3>
-							<br><b><u>What does it do?</u></b>
-								
-							
-							
-									<br><b><u>What is the likely impact?</u></b>
-								
-								
-							
-								<br><b><u>How will this affect me?</u></b>	
-						
-							
+As a person with zero Pygames experience, it was quite confusing at first since I wasn’t sure what exactly was it doing. I did not expect myself to completely create a screen, especially straight from using python itself. After creating the rest of the functions however, it started to click for me on how it worked.  </p>
 							
 					
-									
+								
+							<h3 style="color:maroon;">Mapping, Collisions, and Jumping momentum: </h3>
+				<p>After I finished creating the screen and testing out character movements on screen, I added tiles, collisions, and made it possible for the players to jump around.  
+
+Mapping wasn’t difficult, it was a simple and clever usage of lists to create the desired map using pre-made tiles. Different tiles are labelled with a different number. Based on the number, collision is checked. 
+
+The idea of collisions is a little difficult. To explain, collisions utilize pygame’s rect function to check whether the player is colliding with an object. A rect can be thought of as an invisible box which can hold sprites, tiles, objects, or even screens. With the knowledge that you can check whether a rect is touching another rect using rect.colliderect, you would move the player’s rect away from the object’s rect if they are touching each other, creating an illusion that they are colliding with the object.  </p>
+							
+							<body>
+<img src="images/4.png" alt="backgrounds" width="500" height="300">
+</body>
+</html>	
+		<p>The code the tutorial provided essentially created tile rects for each tile labelled as collide-able, and then ensured that these rects will push the player rect away from them. This was how I made the black tiles completely impassable, while passable when you touch the red stick figure. 
+
+The most difficult part comes with momentum, which is used to create the jump function. 
+
+The variable momentum is basically the velocity of an object in the prototype, and in this case, it is our player. It is the number that pulls the player to the ground. (Gravity!)</p>
+		<p>Because of how pygames calculate their rect y, where if going down from the top of the screen would be a positive value instead of negative, it confused me throughout and had me drawing diagrams, trying to understand the tutorial’s code and what it was doing.  </p>						
+
+									<body>
+<img src="images/5.png" alt="backgrounds" width="500" height="300">
+</body>
+</html>	
+	<p>Once I understood this, everything clicked, allowing me to utilize this concept to create the dialogue box explained later. For now, momentum is used pulls the player down when they reach a certain height jumping. It forces the player to come down by 0.2 pixels accumulatively, meaning the closer they are on the ground, the faster they fall.  
+
+Of course, just setting this will result in a bug where players are able to jump for an infinite amount height. This is where air timer is used. The air timer is a variable used to determine the threshold of how high players can jump. Once the air timer reaches a certain number (which is increased whenever the player rect y is not 0), the air timer is triggered, forcing the players down whether they like it or not. This results in a gravity like motion.</p>
+							<h3 style="color:maroon;">Loading character frames and creating animation: </h3>
+	<p>Once that was done, I wanted to character to feel more alive, hence, I began to look at the tutorial regarding character animations. 
+
+To start, pygames don’t allow for gifs to be inserted. This means that the developer is required to have all frames of the sprite and create a code to animate it themselves. What needs to be done is to have a function that loads all frames and tell the program to cycle through those frames when the player is not moving.</p>
+							
+	<p>The code given in the tutorial were a little more complex than the others, but it was the easiest to be understood compared to other tutorials in YouTube. What the code has done was to store sprite names in the list by the number of frames you would like to be displayed per name. It is then cycled through frame by frame through the list. Having done that, I made a 3 framed idle animation and a 2 framed running animation that had brought laughs for my friend. 
+
+I had tried this method on the red stick figure, but it seemed that I didn’t understand it enough (or just have not played enough with it), to get it to be animated itself. I was missing variables for the function code to work on NPCs. </p>			
+						
+	<h3 style="color:maroon;">Camera Movement: </h3>
+	<p>As I played around with the prototype, I initially wanted it to only be a still screen those changes as the player navigates. But since I wanted this game to be a half platformer, I decided to look up camera movements. 
+
+This was another simple feature added into the game. It wasn’t difficult to understand, so it didn’t take me too long to understand it. To have longer and bigger maps, the camera movements were added. I modified the tutorial video’s code to fit the game more as a side scroller. The basic idea was to add the scroll value to the x and y values of the tiles and the player itself, giving an illusion that there's a camera following the player. </p>
+	
+	<h3 style="color:maroon;">Camera Movement: </h3>
+	<p>This code was entirely made by my own, hence it looked unprofessional and out of place as compared to other codes handed from the tutorial videos. 
+
+Through my vision, dialogues will always be present for at least 60% of the gameplay. That is why I decided to create my own dialogue box instead of looking at videos. Of course, I’ve searched videos online on dialogues, but most of them are chat boxes above characters. I could just modify the code given within those videos, but I thought it was easy to make regardless of when I put a little thinking into it. </p>
+	<p>Using what I’ve learnt from collision and momentum, I wrote a line of code to check if players are touching the npc rect, then check if the key A is pressed. If A is pressed, move the dialogue rects from outside the screen to within screen. The idea was to have the orange box to be character sprites so that we know whose talking. The dialogue box is different from envisioned, but it worked as I would want it to. The problem comes with the key bindings. 
+
+Initially I had wanted the escape key to be used to cancel dialogue boxes. However, it was already reserved to toggle the menu. I had searched online about whether there are ways to disable keys during certain events (such as not being able to move during game cut scenes or dialogues), but I couldn’t find any due to the lack of resources the web has about pygames.  </p>
+	<h3 style="color:maroon;">End: </h3>
+	<p>By the time the deadline was closing in, this prototype remained incomplete. I was unpleased with the results, but if I were to continue working on it, it would have delayed my other assignments. The team wanted to finalize the report, and so, the production of the prototype stops here for the teammates responsible for the GitHub page and finalisation of the report can finalise it. </p>
+	
 							<body>
 						</div>
 					</div>
